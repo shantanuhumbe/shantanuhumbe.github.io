@@ -69,6 +69,21 @@
     }
     .nav-links a:hover { color: var(--text); }
 
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 101;
+      padding: 4px 8px;
+      transition: color 0.2s;
+    }
+    .menu-toggle:hover {
+      color: var(--accent2);
+    }
+
     /* ─── Layout helpers ─── */
     .container { max-width: 1100px; margin: 0 auto; padding: 0 clamp(24px, 5vw, 80px); }
     section { position: relative; z-index: 1; padding: 100px 0; }
@@ -362,7 +377,31 @@
       .hero-inner { grid-template-columns: 1fr; text-align: center; }
       .hero-avatar-wrap { display: none; }
       .hero-stats { gap: 24px; flex-wrap: wrap; }
-      .nav-links { display: none; }
+      .menu-toggle { display: block; }
+      .nav-links {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 28px;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 250px;
+        height: 100vh;
+        background: rgba(10, 15, 30, 0.96);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border-left: 1px solid var(--border);
+        box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+        padding-top: 60px;
+        margin: 0;
+        transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 99;
+      }
+      .nav-links.active {
+        right: 0;
+      }
     }
   </style>
 </head>
@@ -371,6 +410,7 @@
 <!-- Navigation -->
 <nav>
   <a href="#hero" class="nav-logo">SH</a>
+  <button class="menu-toggle" id="menuToggle" aria-label="Toggle Navigation">☰</button>
   <ul class="nav-links">
     <li><a href="#experience">Experience</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -831,6 +871,23 @@
 </footer>
 
 <script>
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.querySelector('.nav-links');
+
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+    menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+  });
+
+  // Close mobile menu when clicking any link
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('active');
+      menuToggle.textContent = '☰';
+    });
+  });
+
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
