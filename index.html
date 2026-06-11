@@ -142,6 +142,7 @@
       box-shadow: 0 0 60px rgba(99,102,241,0.4);
       border: 3px solid rgba(99,102,241,0.4);
       position: relative; z-index: 1;
+      overflow: hidden;
     }
     .hero-avatar-ring {
       position: absolute; inset: -12px; border-radius: 50%;
@@ -428,7 +429,9 @@
       <!-- Avatar -->
       <div class="hero-avatar-wrap">
         <div class="hero-avatar-ring"></div>
-        <div class="hero-avatar">SH</div>
+        <div class="hero-avatar">
+          <img src="assets/profile.jpg" alt="Shantanu Humbe" style="width: 100%; height: 100%; object-fit: cover;" />
+        </div>
       </div>
     </div>
   </div>
